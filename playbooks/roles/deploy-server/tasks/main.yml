@@ -1,0 +1,26 @@
+- shell: ./bin/server-strip.sh
+  args:
+    chdir: "{{ playbook_dir }}/.."
+  delegate_to: localhost
+
+- file: path="/root/vpn/{{ item }}" state=directory
+  with_items:
+    - server
+
+- unarchive:
+    src: "{{ playbook_dir }}/../openvpn-server-strip.tar.xz"
+    dest: "/root/vpn/"
+
+- docker_container:
+    name: openvpn
+    image: kylemanna/openvpn
+    pull: yes
+    state: started
+    recreate: yes
+    restart_policy: always
+    capabilities:
+      - NET_ADMIN
+    ports:
+      - "1194:1194/udp"
+    volumes:
+      - /root/vpn/server/:/etc/openvpn/

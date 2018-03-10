@@ -1,0 +1,10 @@
+- hosts: all
+  roles:
+    - role: debian-docker
+      tags: [bootstrap]
+
+    - role: debian-essential
+      tags: [bootstrap]
+
+    - role: deploy-server
+      tags: [deploy]
