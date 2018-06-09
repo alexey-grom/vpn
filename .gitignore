@@ -1,3 +1,4 @@
 ovpn-data/
 openvpn-*.tar.xz
 deploy-vpn.ini
+*.retry
